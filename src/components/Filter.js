@@ -1,28 +1,88 @@
 import DropdownFilter from "./DropDownFilter";
 import DateFilter from "./DateFilter";
 import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { changeData } from "../store/slices/propertySlices";
+import { Grid } from "@mui/material";
 
-const json = require("../dummyData.json");
+const allData = require("../dummyData.json");
 
 function Filter() {
+  const dispatch = useDispatch();
+  const { location, date, price, propertyType } = useSelector((state) => {
+    return {
+      location: state.property.location,
+      date: state.property.date,
+      price: state.property.price,
+      propertyType: state.property.propertyType,
+      data: state.property.data,
+    };
+  });
+
+  const handleOnClick = () => {
+    let newData = require("../dummyData.json");
+
+    if (location.selected) {
+      newData = newData.filter((obj) => location.value === obj.location);
+    }
+
+    if (price.selected) {
+      newData = newData.filter((obj) => {
+        return (
+          obj.ratePerMonth >= price.value.min &&
+          obj.ratePerMonth <= price.value.max
+        );
+      });
+    }
+
+    if (date.selected) {
+      newData = newData.filter((obj) => {
+        const selectedDate = new Date(date.value).getTime();
+        const from = new Date(obj.availableFrom).getTime();
+        const to = new Date(obj.availableTill).getTime();
+
+        return selectedDate >= from && selectedDate < to;
+      });
+    }
+
+    if (propertyType.selected) {
+      newData = newData.filter((obj) => {
+        return propertyType.value === obj.propertyType;
+      });
+    }
+
+    dispatch(changeData(newData));
+  };
+
   return (
-    <div className="pr-5 pl-5 pt-5">
-      <div>Filter</div>
-      <div class="max-w mt-4 rounded overflow-hidden shadow-lg bg-white ">
-        <div class="px-6 py-4 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            <DropdownFilter options={json} label="location" />
-            <DateFilter />
-            <DropdownFilter options={json} label="Price" />
-            <DropdownFilter options={json} label="propertyType" />
-            <div className="flex flex-col justify-center items-center">
-              <Button variant="contained" color="secondary">
-                Search
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="max-w px-7 py-4 shadow-lg bg-white sticky top-0 shadow-lg z-10">
+      <Grid container alignItems={"center"} justifyContent={"space-around"}>
+        <Grid item xs={3}>
+          <DropdownFilter options={allData} label="location" type="Location" />
+        </Grid>
+        <Grid item xs={2}>
+          <DateFilter />
+        </Grid>
+        <Grid item xs={3}>
+          <DropdownFilter options={allData} label="Price" type="Price" />
+        </Grid>
+        <Grid item xs={3}>
+          <DropdownFilter
+            options={allData}
+            label="propertyType"
+            type="Property Type"
+          />
+        </Grid>
+        <Grid item xs={1} className="text-center">
+          <Button
+            variant="contained"
+            style={{ backgroundColor: "#6a5acd" }}
+            onClick={handleOnClick}
+          >
+            Search
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 }

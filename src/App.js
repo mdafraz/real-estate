@@ -1,11 +1,14 @@
 import "./app.css";
 import Filter from "./components/Filter";
+import PropertyList from "./components/PropertyList";
 
 function App() {
   return (
-    <div className="bg-gray-200 h-screen ">
-      <div>Search Properties to rent</div>
+    <div className="bg-gray-100 min-h-screen">
       <Filter />
+      <div className="pt-5 p-8">
+        <PropertyList />
+      </div>
     </div>
   );
 }

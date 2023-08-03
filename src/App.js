@@ -1,6 +1,6 @@
-import "./app.css";
-import Filter from "./components/Filter";
-import PropertyList from "./components/PropertyList";
+import './app.css';
+import Filter from './components/Filter';
+import PropertyList from './components/PropertyList';
 
 function App() {
   return (

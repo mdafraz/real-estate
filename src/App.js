@@ -1,6 +1,7 @@
-import './app.css';
 import Filter from './components/Filter';
 import PropertyList from './components/PropertyList';
+
+import './app.css';
 
 function App() {
   return (
@@ -12,4 +13,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

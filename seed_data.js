@@ -4,10 +4,12 @@ const { faker } = require('@faker-js/faker');
 function generateDummyData(count) {
   const data = [];
   const propertyTypes = ['House', 'Apartment', 'Townhouse', 'Villa', 'Condo'];
+
   for (let i = 0; i < count; i++) {
     const from = faker.date.anytime();
     const till = faker.date.future({ refDate: from });
     const city = faker.location.city();
+
     const entry = {
       ratePerMonth: faker.number.int({ min: 500, max: 10000 }),
       name: faker.location.street(),

@@ -9,6 +9,7 @@ const allData = require('../dummyData.json');
 
 function Filter() {
   const dispatch = useDispatch();
+
   const {
     location, date, price, propertyType,
   } = useSelector((state) => ({
@@ -21,6 +22,7 @@ function Filter() {
 
   const handleOnClick = () => {
     let newData = [...allData];
+
     if (location.value) {
       newData = newData.filter((obj) => location.value === obj.location);
     }
